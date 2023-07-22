@@ -346,6 +346,14 @@ void MainWindow::timeout(bool hysteresis, QString msg)
 {
     QSystemTrayIcon::MessageIcon ico = hysteresis ? QSystemTrayIcon::Warning : QSystemTrayIcon::NoIcon;
     icon->showMessage("Reminder", msg, ico);
+    if (!current_config)
+    {
+        current_config = new Config(ui->remindBox, this);
+        ui->gridLayout_2->addWidget(current_config);
+        current_config->set_audio(audio_configs);
+        current_config->set_config(*reminders.value(msg));
+        current_config->setup_finish();
+    }
 }
 
 void MainWindow::select_changed()
